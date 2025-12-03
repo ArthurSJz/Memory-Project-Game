@@ -1,3 +1,14 @@
+body {
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  background-image: url('../Images/Login\ Image.jpg'); /* Path to your background image */
+  background-size: cover; /* Ensures image covers entire screen */
+  background-position: center center; /* Center the image on screen */
+  background-repeat: no-repeat; /* Prevent the image from repeating */
+  height: 100vh; /* Ensures the height covers the entire viewport */
+  overflow: hidden; /* Hide any overflow to prevent scrollbars if not needed */
+}
+
 .login_form{
     display:flex;
     flex-direction: column;
@@ -19,8 +30,9 @@
 }
 
 .login_header h1 {
-    color: #333;
-    font-size: 1.5em;  
+  font-size: 2.5em;
+  color: #ffcb05; 
+  text-shadow: 2px 2px #3b4cca; 
 }
 
 .login_input{

@@ -10,15 +10,30 @@
 <body>
 
 <main>
+    <audio id="background-music" loop>
+    <source src="../Music/Pokemon BlueRed - Gym Leader Battle!.mp3" type="audio/mpeg">
+   
+</audio>
     
     <header>
         <span class="player"></span>
         <span>Time: <span class="timer">00</span></span>
+        <button id="music-toggle"></button>
     </header>
     
     <div class="grid"></div>
 
+    <div id="end-screen" style="display: none;">
+      <h1>Congratulations! You caught them all!</h1>
+      <p>Your time: <span id="final-time"></span> seconds</p>
+      <h2>Best Times</h2>
+      <ul id="best-times-list"></ul>
+      <button onclick="restartGame()">Play Again</button>
+       <button onclick="newPlayer()">New Player</button>
+    </div>
 </main>
+
+
 
 
 <script src="../js/game.js"></script>

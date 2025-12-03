@@ -27,15 +27,50 @@ const createElement = (tag, className) => {
 
 // Check if all cards are already found
 const checkEndGame = () => {
-  const disabledCards = document.querySelectorAll(".disabled_card");
+    const disabledCards = document.querySelectorAll('.disabled_card');
 
-  if (disabledCards.length === 20) {
-    clearInterval(this.loop);
-    alert(
-      `Congrats, ${spanPlayer.innerHTML}! You caught them All in ${timer.innerHTML} seconds!`
-    );
-  }
+    if (disabledCards.length === 20) {
+        clearInterval(this.loop);
+        const timeTaken = Number(timer.innerHTML);
+        const playerName = localStorage.getItem('player');
+
+        // Save current game result
+        savePlayerScore(timeTaken, playerName);
+
+        // Display end screen with updated scores
+        const endScreen = document.getElementById('end-screen');
+        endScreen.style.display = 'block';
+        document.getElementById('final-time').innerHTML = timeTaken;
+
+        const bestTimesList = document.getElementById('best-times-list');
+        bestTimesList.innerHTML = ''; // Clear previous list
+        const scores = getPlayerScores();
+        scores.forEach(({ name, time }, index) => {
+            const listItem = document.createElement('li');
+            listItem.innerHTML = `#${index + 1}: ${name} - ${time} seconds`;
+            bestTimesList.appendChild(listItem);
+        });
+    }
 };
+
+const restartGame = () => {
+  const endScreen = document.getElementById("end-screen");
+  endScreen.style.display = "none";
+
+  grid.innerHTML = ''; // Clear the grid
+  timer.innerHTML = '0'; // Reset the timer
+
+  startTimer(); // Restart the timer
+  loadGame(); // Reload the game
+};
+function newPlayer() {
+  // Clear the player's name from localStorage
+  localStorage.removeItem('player');
+
+  // Redirect to the login page
+  window.location = '../index.html'; 
+}
+
 
 // check if cards matches one another else it goes back hidden
 const checkCards = () => {
@@ -115,11 +150,51 @@ const startTimer = () => {
   }, 1000);
 };
 
+//Save Best times
+const savePlayerScore = (time, playerName) => {
+    // Retrieve the current scoreboard
+    let scoreboard = JSON.parse(localStorage.getItem('scoreboard')) || [];
 
-// window.onload lets the page do something when it loads, in this case, start the game and put the timer and the name saved localy
+    // Add the new player score
+    scoreboard.push({ name: playerName, time: time });
+
+    // Sort by time (ascending)
+    scoreboard.sort((a, b) => a.time - b.time);
+
+    // Keep only the top 5 scores
+    scoreboard = scoreboard.slice(0, 5);
+
+    // Save back to localStorage
+    localStorage.setItem('scoreboard', JSON.stringify(scoreboard));
+};
+
+const getPlayerScores = () => {
+    return JSON.parse(localStorage.getItem('scoreboard')) || [];
+};
+
+
+// window.onload lets the page do something when it loads, in this case, start the game and put the timer, the name saved localy and start music
 window.onload = () => {
-  spanPlayer.innerHTML = localStorage.getItem("player");
+spanPlayer.innerHTML = localStorage.getItem("player");
+const backgroundMusic = document.getElementById("background-music");
+const musicToggle = document.getElementById("music-toggle");
 
+musicToggle.innerText ="Pause Music"
+
+musicToggle.addEventListener("click", () => {
+  if (backgroundMusic.paused) {
+    backgroundMusic.play().catch(error => {
+      console.error("Music play failed:", error);
+    });
+    musicToggle.innerText = "Pause Music";
+  } else {
+    backgroundMusic.pause();
+    musicToggle.innerText = "Play Music";
+  }
+});
+  backgroundMusic.play();
   startTimer();
   loadGame();
+
+
 };

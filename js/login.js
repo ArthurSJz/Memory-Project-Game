@@ -1,9 +1,9 @@
-//Variables for the query selector
+// Variables for element selectors
 const input = document.querySelector('.login_input');
 const button = document.querySelector('.login_button');
 const form = document.querySelector('.login_form');
 
-//Making my Login button work
+// Enables/disables login button based on input validity
 const validateInput = (event) => {
     if(event.target.value.length >= 1){
         button.removeAttribute('disabled');
@@ -13,7 +13,7 @@ const validateInput = (event) => {
 }
 }
 
-// Storing the Name after after the submission and send the player to the Game Page 
+// Handles form submission
 const handleSubmit = (event) => {
     event.preventDefault(); //prevent the page refreshing
     
@@ -21,5 +21,7 @@ const handleSubmit = (event) => {
     window.location = 'pages/game.html';
 }
 
+
+// Event listeners for input validation and form submission
 input.addEventListener('input', validateInput);
 form.addEventListener('submit', handleSubmit);
