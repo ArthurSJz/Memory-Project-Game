@@ -192,6 +192,8 @@ musicToggle.addEventListener("click", () => {
     musicToggle.innerText = "Play Music";
   }
 });
+  
+  backgroundMusic.volume = 0.1;
   backgroundMusic.play();
   startTimer();
   loadGame();
